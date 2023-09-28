@@ -1,6 +1,42 @@
 package br.edu.up.app.data
 
-class Repository {
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
+
+class ProdutoRepository(val produtoDAO: ProdutoDAO) {
+
+    val produtos: Flow<List<Produto>> get() = produtoDAO.listar()
+
+    init {
+        CoroutineScope(Job()).launch {
+            excluirCardapio()
+            delay(15000)
+            val produtos = produtos()
+            for(p in produtos){
+                p.id = 0
+                produtoDAO.cadastrar(p)
+            }
+        }
+    }
+
+    suspend fun salvar(produto: Produto){
+        if(produto.id == 0){
+            produtoDAO.cadastrar(produto)
+        } else {
+            produtoDAO.atualizar(produto)
+        }
+    }
+
+    suspend fun excluir(produto: Produto){
+        produtoDAO.deletar(produto)
+    }
+
+    suspend fun excluirCardapio(){
+        produtoDAO.deletarCardapio()
+    }
 
     companion object {
         fun produtos(): MutableList<Produto> {
@@ -322,6 +358,6 @@ class Repository {
                 )
             )
             return lista
+            }
         }
     }
-}

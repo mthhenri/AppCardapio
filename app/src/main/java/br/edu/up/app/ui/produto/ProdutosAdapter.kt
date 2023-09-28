@@ -38,7 +38,7 @@ class ProdutosAdapter(
             holder.txtNomeProd.text = produto.nome
             holder.txtPreco.text = "R$ " + String.format("%.2f", produto.preco).replace(".", ",")
 //        holder.idView.text = item.id
-//        holder.contentView.text = item.content
+//        holder.contentView.text = item.contentpainel
     }
 
     override fun getItemCount(): Int = produtos.size

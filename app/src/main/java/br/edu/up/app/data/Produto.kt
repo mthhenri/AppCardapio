@@ -1,11 +1,18 @@
 package br.edu.up.app.data
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "produtos")
 data class Produto(
-    val codigo: Int,
-    val nome: String,
-    val descricao: String = String(),
-    val preco: Double = 0.0,
-    val peso: Int = 0,
-    val foto: String = "semfoto.jpg",
-    val categoria: Int = 0
-)
+    @PrimaryKey(autoGenerate = true)
+    var id: Int,
+    var nome: String,
+    var descricao: String = String(),
+    var preco: Double = 0.0,
+    var peso: Int = 0,
+    var foto: String = "semfoto.jpg",
+    var categoria: Int = 0
+){
+    constructor() : this(0,"","",0.0,0,"semfoto.jpg",0)
+}
