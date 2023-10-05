@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.findNavController
 import br.edu.up.app.data.Fotos
 import br.edu.up.app.data.Produto
 import br.edu.up.app.databinding.FragmentItemProdutoBinding
@@ -16,7 +17,8 @@ import br.edu.up.app.ui.produto.placeholder.PlaceholderContent.PlaceholderItem
  * TODO: Replace the implementation with code for your data type.
  */
 class ProdutosAdapter(
-    private val produtos: List<Produto>
+    private val produtos: List<Produto>,
+    val viewModel: ProdutoViewModel
 ) : RecyclerView.Adapter<ProdutosAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -33,10 +35,16 @@ class ProdutosAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val produto = produtos[position]
-            val idFoto = Fotos.get(produto.foto)
-            holder.imgFoto.setImageResource(idFoto)
-            holder.txtNomeProd.text = produto.nome
-            holder.txtPreco.text = "R$ " + String.format("%.2f", produto.preco).replace(".", ",")
+        val idFoto = Fotos.get(produto.foto)
+        holder.imgFoto.setImageResource(idFoto)
+        holder.txtNomeProd.text = produto.nome
+        holder.txtPreco.text = "R$ " + String.format("%.2f", produto.preco).replace(".", ",")
+
+        holder.itemView.setOnClickListener(){view ->
+            viewModel.editar(produto)
+            val action = ProdutosFragmentDirections.actionNavHomeToProdutoFragment()
+            view.findNavController().navigate(action)
+        }
 //        holder.idView.text = item.id
 //        holder.contentView.text = item.contentpainel
     }

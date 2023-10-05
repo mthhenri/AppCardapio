@@ -5,22 +5,25 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ProdutoRepository(val produtoDAO: ProdutoDAO) {
+class ProdutoRepository @Inject constructor(val produtoDAO: ProdutoDAO) {
 
     val produtos: Flow<List<Produto>> get() = produtoDAO.listar()
 
-    init {
-        CoroutineScope(Job()).launch {
-            excluirCardapio()
-            delay(15000)
-            val produtos = produtos()
-            for(p in produtos){
-                p.id = 0
-                produtoDAO.cadastrar(p)
-            }
-        }
-    }
+
+
+//    init {
+//        CoroutineScope(Job()).launch {
+//            excluirCardapio()
+//            delay(5000)
+//            val produtos = produtos()
+//            for(p in produtos){
+//                p.id = 0
+//                produtoDAO.cadastrar(p)
+//            }
+//        }
+//    }
 
     suspend fun salvar(produto: Produto){
         if(produto.id == 0){
