@@ -21,12 +21,20 @@ class ProdutoFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         val viewModel : ProdutoViewModel by activityViewModels()
         val binding = FragmentProdutoBinding.inflate(layoutInflater)
 
+        val produto = viewModel.produto
+        binding.inputNome.setText(produto.nome)
+        binding.inputDescricao.setText(produto.descricao)
+        binding.inputPreco.setText(produto.preco.toString())
+        binding.inputPeso.setText(produto.peso.toString())
+        binding.inputFoto.setText(produto.foto)
+
         binding.btnSalvar.setOnClickListener(){
             val produtoSalvar = Produto(
-                0,
+                produto.id,
                 binding.inputNome.text.toString(),
                 binding.inputDescricao.text.toString(),
                 binding.inputPreco.text.toString().toDouble(),
@@ -39,7 +47,7 @@ class ProdutoFragment : Fragment() {
             findNavController().popBackStack()
         }
 
-        return  binding.root
+        return binding.root
 //        return inflater.inflate(R.layout.fragment_produto, container, false)
     }
 

@@ -29,6 +29,6 @@
     <fragment
         android:id="@+id/produtoFragment"
         android:name="br.edu.up.app.ui.produto.ProdutoFragment"
-        android:label="fragment_produto"
+        android:label="Cadastro de Produtos"
         tools:layout="@layout/fragment_produto" />
 </navigation>

@@ -1,5 +1,6 @@
 package br.edu.up.app.ui.produto
 
+import android.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -34,16 +35,33 @@ class ProdutosAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val produto = produtos[position]
-        val idFoto = Fotos.get(produto.foto)
+
+        val itemProduto = produtos[position]
+        val idFoto = Fotos.get(itemProduto.foto)
+
         holder.imgFoto.setImageResource(idFoto)
-        holder.txtNomeProd.text = produto.nome
-        holder.txtPreco.text = "R$ " + String.format("%.2f", produto.preco).replace(".", ",")
+        holder.txtNomeProd.text = itemProduto.nome
+        holder.txtPreco.text = "R$ " + String.format("%.2f", itemProduto.preco).replace(".", ",")
+        holder.txtDescricao.text = itemProduto.descricao
 
         holder.itemView.setOnClickListener(){view ->
-            viewModel.editar(produto)
+            viewModel.editar(itemProduto)
             val action = ProdutosFragmentDirections.actionNavHomeToProdutoFragment()
             view.findNavController().navigate(action)
+        }
+
+        holder.itemView.setOnLongClickListener{view ->
+            AlertDialog.Builder(view.context)
+                .setMessage("Remover item do cardápio?")
+                .setPositiveButton("Sim") {dialog, id ->
+                    viewModel.excluir(itemProduto)
+                }
+                .setNegativeButton("Não") {dialog, id ->
+
+                }
+                .create()
+                .show()
+            true
         }
 //        holder.idView.text = item.id
 //        holder.contentView.text = item.contentpainel
@@ -56,5 +74,6 @@ class ProdutosAdapter(
             val imgFoto: ImageView = binding.imgFoto
             val txtNomeProd: TextView = binding.txtNomeProd
             val txtPreco: TextView = binding.txtPreco
+            val txtDescricao: TextView = binding.txtDescricao
         }
 }

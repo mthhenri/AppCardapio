@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.appBarMain.toolbar)
 
         binding.appBarMain.fab.setOnClickListener { view ->
+            viewModel.novo()
             val action = ProdutosFragmentDirections.actionNavHomeToProdutoFragment()
             findNavController(R.id.nav_host_fragment_content_main).navigate(action)
         }
